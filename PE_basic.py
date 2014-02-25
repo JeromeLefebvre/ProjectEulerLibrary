@@ -21,7 +21,8 @@ def product(args):
 	return reduce(mul, args, 1)
 
 def nCk(n,k):
-	return int( reduce(mul, (Fraction(n-i, i+1) for i in range(k)), 1) )
+    ''' Calculate nCk - the binomial coefficient'''
+    return product(range(n-k+1, n+1)) // product(range(1,k+1))
 
 def powerset(A,nonTrivial=False):
 	''' powerset(set) -> iterator -- returns a complete list of all subsets of A as tuple, if nonTrivial=True, returns all set expects the empty set and A'''
@@ -52,6 +53,12 @@ class TestBasicFunctions(unittest.TestCase):
 	def test_powerset(self):
 		self.assertEqual(list(powerset((1,2,3))), [(),(1,),(2,),(3,),(1,2),(1,3),(2,3),(1,2,3)])
 		self.assertEqual(list(powerset((1,2,3),True)), [(1,),(2,),(3,),(1,2),(1,3),(2,3)])
+
+	def test_cNk(self):
+		self.assertEqual(nCk(50,42), 536878650)
+		self.assertEqual(nCk(1,1), 1)
+		self.assertEqual(nCk(100,0), 1)
+		self.assertEqual(nCk(100,10), 17310309456440)
 
 if __name__ == "__main__":
 	unittest.main()
