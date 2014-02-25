@@ -1,22 +1,24 @@
 from fractions import gcd
 from functools import reduce
+from operator import mul
+from fractions import Fraction
 
 def lcm(a, b):
     """Compute the lowest common multiple of a and b"""
     return a * b // gcd(a, b)
 
-def lcmm(*args):
+def lcmm(args):
+	"""Compute the lowest common multiple of [a,b,c,...]"""
 	return reduce(lcm, args)
 
-def gcdd(*args):
+def gcdd(args):
+	"""Compute the greatest common divisors of [a,b,c,...]"""
 	return reduce(gcd, args)
 
-from operator import mul
 def product(args):
+	"""Return the products of all the elements [a,b,c,...]
+	returns 1 if the list is empty"""
 	return reduce(mul, args, 1)
-
-from fractions import Fraction
-from functools import reduce
 
 def nCk(n,k):
 	return int( reduce(mul, (Fraction(n-i, i+1) for i in range(k)), 1) )
@@ -41,10 +43,11 @@ class TestBasicFunctions(unittest.TestCase):
 	def setUp(self):
 		pass
 
-	def test_gcd(self):
+	def test_gcdlcm(self):
 		self.assertEqual(gcd(4,6),2)
-		self.assertEqual(gcdd(4,6,8),2)
-		self.assertEqual(gcdd(*[4,6,8]),2)
+		self.assertEqual(gcdd([4,6,8]),2)
+		self.assertEqual(lcm(4,5),20)
+		self.assertEqual(lcm(4,8),8)
 
 	def test_powerset(self):
 		self.assertEqual(list(powerset((1,2,3))), [(),(1,),(2,),(3,),(1,2),(1,3),(2,3),(1,2,3)])
