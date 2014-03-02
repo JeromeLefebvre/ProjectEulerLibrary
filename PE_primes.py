@@ -150,7 +150,8 @@ def iPrime(start=0, step=1):
 	from itertools import count
 	D = {}  # map each composite integer to its first-found prime factor
 	# To speed things up, we deal with 2 as a special case
-	yield 2
+	if 2 >= start:
+		yield 2
 	for q in count(3,2):     # q gets 3, 5, 7, ... ad infinitum
 		p = D.pop(q, None)
 		if p is None:
