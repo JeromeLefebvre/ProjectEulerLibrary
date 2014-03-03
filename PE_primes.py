@@ -87,6 +87,28 @@ def factorize(n, _d={0:[],1:[],2:[2]}):
 	_d[args] = factors
 	return factors
 
+def iFactorize(n, _d={0:[],1:[],2:[2]}):
+	''' factorize returns any n number as a list of factors '''
+	args = n
+	if n in _d: return _d[n]
+	factors = []
+	while n != 1:
+		q = brent(n)
+		n //= q
+		if isPrime(q):
+			factors += [q]
+			yield q
+		else:
+			newFactors = factorize(q)
+			factors += newFactors
+			for c in newFactors:
+				yield c
+		if n in _d:
+			factors += _d[n]
+			break
+	_d[args] = factors
+	return factors
+
 def primesUpTo(n):
 	""" Input n>=6, Returns a list of primes, 2 <= p < n """
 	# http://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n-in-python/3035188#3035188
