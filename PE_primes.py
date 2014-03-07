@@ -125,6 +125,14 @@ def primesUpTo(n):
 	return (2,3) + tuple(3*i+1|1 for i in range(1,n//3-correction) if sieve[i])
 
 
+def phi(n):
+	'''Returns the euler totient of an integer'''
+	# This pure integer solution avoids the loss of precison that comes with dealing 1/p
+	primes = factorize(n)
+	n = 1
+	for p in set(primes):
+		n *= p**(primes.count(p) - 1)*(p-1)
+	return n
 
 from PE_basic import powerset,product
 def divisors(n):
@@ -223,7 +231,13 @@ class TestSequenceFunctions(unittest.TestCase):
 			self.assertEqual(p,primes[index])
 			if index == len(primes)-1:
 				break
-		
+	
+	def test_phi(self):
+		# Testing base on http://www.javascripter.net/math/calculators/eulertotientfunction.htm
+		self.assertEqual(3820, phi(4213))
+		self.assertEqual(441994921381739520, phi(999999999999999999))
+		self.assertEqual(14213140, phi(14213141))
+
 	def test_divisors(self):
 		self.assertEqual(divisors(6), {1, 2, 3, 6})
 		self.assertEqual(divisors(60),{1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30,60})
