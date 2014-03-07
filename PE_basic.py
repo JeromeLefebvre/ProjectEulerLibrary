@@ -32,7 +32,7 @@ def powerset(A,indices=False):
 		indices = range(0,len(A)+1)
 	return chain.from_iterable( combinations(A,i) for i in indices )
 
-def order(a,n):
+def order_old(a,n):
 	'''Expects (a,n) = 1, returns min k such that a^k = 1 mod n'''
 	assert(gcd(a,n) == 1)
 	if a == 1:
@@ -66,16 +66,16 @@ class TestBasicFunctions(unittest.TestCase):
 		self.assertEqual(nCk(100,0), 1)
 		self.assertEqual(nCk(100,10), 17310309456440)
 
-	def test_order(self):
-		self.assertEqual( order(2,7), 3)
-		self.assertEqual( order(3,50), 20)
+	def test_order_old(self):
+		self.assertEqual( order_old(2,7), 3)
+		self.assertEqual( order_old(3,50), 20)
 		from PE_primes import primesUpTo
 		from random import randint
 		# Verifying Fermat's little theorem
 		primes = primesUpTo(100)
 		for p in primes:
 			a = randint(1,p-1)
-			self.assertEqual( (p-1) % order(a,p), 0)
+			self.assertEqual( (p-1) % order_old(a,p), 0)
 
 if __name__ == "__main__":
 	unittest.main()
