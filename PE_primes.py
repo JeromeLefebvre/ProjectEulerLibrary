@@ -134,6 +134,17 @@ def phi(n):
 		n *= p**(primes.count(p) - 1)*(p-1)
 	return n
 
+from fractions import gcd
+def order(a,n):
+	''' Find the order of the integer n modulo the integer m'''
+	assert(gcd(a,n) == 1)
+	eulerPhi = phi(n)
+	a %= n
+	for d in range(1,eulerPhi+1):
+		if eulerPhi % d == 0:
+			if (a**d - 1) % n == 0:
+				return d
+
 from PE_basic import powerset,product
 def divisors(n):
 	if type(n) == type(0):
@@ -251,5 +262,15 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.assertEqual(sigma(184092,1,proper=False),464520)
 		self.assertEqual(sigma(184092,1,proper=True),280428)
 
+	def test_order(self):
+		self.assertEqual( order(2,7), 3)
+		self.assertEqual( order(3,50), 20)
+		from PE_primes import primesUpTo
+		from random import randint
+		# Verifying Fermat's little theorem
+		primes = primesUpTo(100)
+		for p in primes:
+			a = randint(1,p-1)
+			self.assertEqual( (p-1) % order(a,p), 0)
 if __name__ == '__main__':
 	unittest.main()
