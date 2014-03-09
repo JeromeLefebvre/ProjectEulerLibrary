@@ -1,5 +1,6 @@
 
 import unittest 
+from memoize import memoize
 
 
 def triangle(n):
@@ -9,8 +10,8 @@ def triangle(n):
 	return n*(n+1)//2
 
 phi = (1 + 5**(1/2))/2
-
-def fib(n,_fib={}):
+ 
+def fib2(n,_fib={}):
 	from math import sqrt
 	''' This is the fibonacci squence starting from 1,1,2,3,5,...'''
 	# There are even faster ways of computing this, see: http://en.literateprograms.org/Fibonacci_numbers_(Python)
@@ -21,6 +22,17 @@ def fib(n,_fib={}):
 		else:
 			_fib[n] = fib(n-1) + fib(n-2)
 	return _fib[n]
+
+@memoize
+def fib(n):
+	from math import sqrt
+	''' This is the fibonacci squence starting from 1,1,2,3,5,...'''
+	# There are even faster ways of computing this, see: http://en.literateprograms.org/Fibonacci_numbers_(Python)
+	# pass n == 71, the accuracy drops enough that you start to generate errors.
+	if n < 72:
+		return int(((1+sqrt(5))**n-(1-sqrt(5))**n)/(2**n*sqrt(5)))
+	else:
+		return fib(n-1) + fib(n-2)
 
 
 def sumOfSquares(n):
@@ -201,8 +213,10 @@ class TestSequenceFunctions(unittest.TestCase):
 				key,value = n.split(':')
 				fib_test[int(key)] = int(value)
 
-		for i in range(1,200):
+		for i in range(1,500):
+			print(fib(i))
 			self.assertEqual(fib(i),fib_test[i])
+			self.assertEqual(fib2(i),fib_test[i])
 
 if __name__ == '__main__':
 	unittest.main()

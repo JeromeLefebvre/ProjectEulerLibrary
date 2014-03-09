@@ -174,16 +174,6 @@ def d(n):
 		# For every divisor, we get a pair
 		if n%i == 0: sigma += i + (n//i)
 	return sigma	
-
-from itertools import combinations
-def divisorsFromFactors(factors):
-	'''Given a set of number as a set of factors, return a set of all divisors'''
-	divisors = [1]
-	for numDiv in range(1,len(factors)+1):
-		for c in combinations(factors, numDiv):
-			divisors.append(product(c))
-	return set(divisors)
-
 	
 def iPrime(start=0, step=1):
 	''' count(start=0, step=1) --> count object
@@ -223,6 +213,9 @@ class TestSequenceFunctions(unittest.TestCase):
 
 	def test_isPrime(self):
 		self.assertEqual(isPrime(59649589127497217),True)
+		self.assertEqual(isPrime(0),False)
+		self.assertEqual(isPrime(11867008762),False)
+
 	def test_factorize(self):
 		# 0 and 1 are special cases
 		self.assertEqual(factorize(0), [])
@@ -236,6 +229,11 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.assertEqual(factorize(2**(2**5) + 1), [641,6700417])
 		self.assertEqual(factorize(2**(2**6) + 1), [274177,67280421310721])
 		#self.assertEqual(factorize(2**(2**7) + 1), [59649589127497217,5704689200685129054721])
+
+	def test_ifactorize(self):
+		# 0 and 1 are special cases
+		self.assertEqual([ p for p in iFactorize(2**(2**5) + 1)], [641,6700417])
+
 	def test_primes(self):
 		primes = primesUpTo(10**6)
 		for index,p in enumerate(iPrime()):

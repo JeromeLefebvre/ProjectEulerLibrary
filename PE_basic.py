@@ -3,6 +3,7 @@ from functools import reduce
 from operator import mul
 from fractions import Fraction
 from itertools import chain, combinations
+from memoize import memoize
 
 def lcm(a, b):
     """Compute the lowest common multiple of a and b"""
