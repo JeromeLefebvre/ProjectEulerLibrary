@@ -11,18 +11,6 @@ def triangle(n):
 
 phi = (1 + 5**(1/2))/2
  
-def fib2(n,_fib={}):
-	from math import sqrt
-	''' This is the fibonacci squence starting from 1,1,2,3,5,...'''
-	# There are even faster ways of computing this, see: http://en.literateprograms.org/Fibonacci_numbers_(Python)
-	if n not in _fib:
-		# pass n == 71, the accuracy drops enough that you start to generate errors.
-		if n < 72:
-			_fib[n] = int(((1+sqrt(5))**n-(1-sqrt(5))**n)/(2**n*sqrt(5)))
-		else:
-			_fib[n] = fib(n-1) + fib(n-2)
-	return _fib[n]
-
 @memoize
 def fib(n):
 	from math import sqrt

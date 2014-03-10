@@ -174,7 +174,16 @@ def d(n):
 		# For every divisor, we get a pair
 		if n%i == 0: sigma += i + (n//i)
 	return sigma	
-	
+
+def mobius(n):
+	''' Computes the mobius function of an number '''
+	if n == 1:
+		return 1
+	factors = factorize(n)
+	if len(set(factors)) != len(factors):
+		return 0
+	return (-1)**(len(factors))
+
 def iPrime(start=0, step=1):
 	''' count(start=0, step=1) --> count object
 	Return a count object whose .__next__() method returns consecutive primes values'''
@@ -259,6 +268,12 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.assertEqual(sigma(3421,1,proper=True),323)
 		self.assertEqual(sigma(184092,1,proper=False),464520)
 		self.assertEqual(sigma(184092,1,proper=True),280428)
+
+	def test_mobius(self):
+		# Know values taken from oeis
+		knowValues = [1, -1, -1, 0, -1, 1, -1, 0, 0, 1, -1, 0, -1, 1, 1, 0, -1, 0, -1, 0, 1, 1, -1, 0, 0, 1, 0, 0, -1, -1, -1, 0, 1, 1, 1, 0, -1, 1, 1, 0, -1, -1, -1, 0, 0, 1, -1, 0, 0, 0, 1, 0, -1, 0, 1, 0, 1, 1, -1, 0, -1, 1, 0, 0, 1, -1, -1, 0, 1, -1, -1, 0, -1, 1, 0, 0, 1]
+		for i in range(1,len(knowValues)):
+			self.assertEqual(knowValues[i-1],mobius(i))
 
 	def test_order(self):
 		self.assertEqual( order(2,7), 3)
