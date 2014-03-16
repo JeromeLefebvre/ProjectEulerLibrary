@@ -209,6 +209,57 @@ def iPrime(start=0, step=1):
 				x += p
 			D[x] = p
 
+def legendre(a, p):
+    """
+   Calculate the legendre symbol (a, p) with p is prime.
+   The result is either -1, 0 or 1
+
+   >>> calculateLegendre(3, 29)
+   -1
+   >>> calculateLegendre(111, 41) # Beispiel aus dem Skript, S. 114
+   -1
+   >>> calculateLegendre(113, 41) # Beispiel aus dem Skript, S. 114
+   1
+   >>> calculateLegendre(2, 31)
+   1
+   >>> calculateLegendre(5, 31)
+   1
+   >>> calculateLegendre(150, 1009) # http://math.stackexchange.com/q/221223/6876
+   1
+   >>> calculateLegendre(25, 1009) # http://math.stackexchange.com/q/221223/6876
+   1
+   >>> calculateLegendre(2, 1009) # http://math.stackexchange.com/q/221223/6876
+   1
+   >>> calculateLegendre(3, 1009) # http://math.stackexchange.com/q/221223/6876
+   1
+
+   Taken from: http://martin-thoma.com/calculate-legendre-symbol/
+   """
+    if a >= p or a < 0:
+        return legendre(a % p, p)
+    elif a == 0 or a == 1:
+        return a
+    elif a == 2:
+        if p%8 == 1 or p%8 == 7:
+            return 1
+        else:
+            return -1
+    elif a == p-1:
+        if p%4 == 1:
+            return 1
+        else:
+            return -1
+    elif not isPrime(a):
+        factors = factorize(a)
+        product = 1
+        for pi in factors:
+            product *= legendre(pi, p)
+        return product
+    else:
+        if ((p-1)/2)%2==0 or ((a-1)/2)%2==0:
+            return legendre(p, a)
+        else:
+            return (-1)*legendre(p, a)
 import unittest
 class TestSequenceFunctions(unittest.TestCase):
 	def setUp(self):
@@ -261,6 +312,9 @@ class TestSequenceFunctions(unittest.TestCase):
 		self.assertEqual(divisors(60),{1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30,60})
 		self.assertEqual(divisors(1260), {1, 2, 3, 4, 5, 6, 7, 9, 10, 12, 14, 15, 18, 20, 21, 28, 30, 35, 36, 42, 45, 60, 63, 70, 84, 90, 105, 126, 140, 180, 210, 252, 315, 420, 630, 1260})
 		self.assertEqual(sum(divisors(1260)),4368)
+
+	def test_legendre(self):
+		self.assertEqual(legendre(12345,331),-1)
 
 	def test_sigma(self):
 		self.assertEqual(sigma(3421,0),4)
