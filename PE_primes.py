@@ -70,7 +70,7 @@ def brent(N):
 	return g    
 
 def factorize(n, _d={0:[],1:[],2:[2]}):
-	''' factorize returns any n number as a list of factors '''
+	''' factorize returns any n number as a list of factors, 1 has no factors '''
 	args = n
 	if n in _d: return _d[n]
 	factors = []
@@ -260,7 +260,28 @@ def legendre(a, p):
             return legendre(p, a)
         else:
             return (-1)*legendre(p, a)
+
+def muUpTo(n):
+	''' returns a list [mu(0),...,mu(n)]'''
+	mu = [1]*n
+	for p in primesUpTo(n):
+		for m in range(p**2,n,p**2):
+			mu[m] = 0
+		for m in range(p,n,p):
+			mu[m] = -mu[m]
+	return mu
+
+def muUpTo_abs(n):
+	''' returns a list [|mu(0)|,...,|mu(n)|]'''
+	mu = [1]*n
+	for p in primesUpTo(n):
+		for m in range(p**2,n,p**2):
+			mu[m] = 0
+	return mu
+
+
 import unittest
+
 class TestSequenceFunctions(unittest.TestCase):
 	def setUp(self):
 		pass
