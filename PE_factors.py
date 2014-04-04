@@ -19,11 +19,12 @@ def rwh_primes2(n):
         sieve[(k*k+4*k-2*k*(i&1))//3::2*k]=[False]*((n//6-(k*k+4*k-2*k*(i&1))//6-1)//k+1)
     return (2,3) + tuple(3*i+1|1 for i in range(1,n//3-correction) if sieve[i])
 
+from OrderedList import Orderedlist
 def genFactors(n):
-	return generateFactors(n, orderedlist(rwh_primes2(n)),genOne=True)
+	return generateFactors(n, Orderedlist(rwh_primes2(n)),genOne=True)
 
 def genProducts(n,numbers = [2,3]):
-	return generateFactors(n, orderedlist(numbers),genOne=False)	
+	return generateFactors(n, Orderedlist(numbers),genOne=False)	
 
 def generateFactors(n,primes,start=1,factors=(), genOne=False):
 	'''This generates all numbers between from 1 up to n as their list of factors'''
